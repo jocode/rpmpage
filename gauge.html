@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <title>RPM</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+    <figure class="highcharts-figure">
+      <div id="container"></div>
+    </figure>
+
+    <button id="resetBtn">Reset</button>
+
+    <script src="gauge.js"></script>
+  </body>
+
+  <script>
+    $(document).ready(function () {
+      $("resetBtn").click(function () {
+        $.get("http://192.168.4.1/resetMeasurement/", function (data, status) {
+          Console.log("Data: " + data + "\nStatus: " + status);
+        });
+      });
+    });
+
+    setInterval(function () {
+      var point = chart.series[0].points[0];
+
+      $.ajax({
+        type: "GET",
+        headers: { "Access-Control-Allow-Origin": "*" },
+        dataType: "json",
+        url: "http://192.168.4.1/get/",
+        success: function (jsondata, status) {
+          Console.log("Data: " + jsondata + "\nStatus: " + status);
+          point.update(data.value);
+        },
+      });
+    }, 200);
+  </script>
+</html>

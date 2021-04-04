@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RPM</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+    <figure class="highcharts-figure">
+      <div id="container-rpm" class="chart-container"></div>
+    </figure>
+
+    <script src="index.js"></script>
+  </body>
+
+  <script>
+    // Bring life to the dials
+    setInterval(function () {
+      // Punto de referencia
+      var point;
+
+      // RPM
+      if (chartRpm) {
+        point = chartRpm.series[0].points[0];
+        point.update(10);
+      }
+    }, 1000);
+  </script>
+</html>
